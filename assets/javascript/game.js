@@ -1,24 +1,72 @@
 
 // variables
-var randomNumber = [Math.floor(Math.random(100))];
-var healthPoints = 0;
-var attackPower = 0;
-var counterattackPower = 0;
+var heroChoice
+var enemyChoice
+var heroObj
+var enemyObj
+var enemyCount
+var heroHp
+var enemyHp
+var heroAtk
+var enemyAtk
+var characterPortrait = $("<img>");
 
+    function startgame() {
+        var heroes;
+        var enemies;
+        enemyCount;
+        // Hides all images in each section until selected
+        heroes = $("#herosection").find("button");
+        heroes.each(function (index){
+            $(this).hide();
+        });
 
-//functions
-function cloud() {
-    $("#body").css("background-image", "url('../assets/images/midgar.jpg.jpg')")
-}
+        enemies = $("#enemysection").find("button");
+        enemies.each(function(index) {
+            $(this).hide();
+        });
 
-function squall() {
+        enemyCount = $("#enemyselector").find("button");
+        enemyCount.each(function (index){
+            $(this).hide();
+        })
 
-}
+        $("#movessection").hide();
 
-function tidus() {
+    }
 
-}
+    startgame();
 
-function noctis() {
+// select the character from #heroselector, hides other images, reveals selected char in #herosection
+    $("#heroselector button").on("click", function(){
 
-}
+        var pickedHero;
+        var allHeroes;
+        var attacker;
+        var enemiesLeft;
+
+        pickedHero = $(this).attr("class");
+        $(this).addClass('selected');
+
+        allHeroes = $("#heroselector").find("button");
+        allHeroes.each(function (){
+            $(this).hide();
+        });
+
+        attacker = $("#herosection").find("button");
+        attacker.each(function(){
+            if ($(this).hasClass(pickedHero)){
+                $(this).show();
+            }
+        });
+
+        enemiesLeft = $("#enemyselector").find("button");
+
+            enemiesleft.each(function (){
+                if ($(this).hasClass('selected')){
+                    $(this).show();
+                }
+            })
+    });
+
+    // select enemy from #enemyselector, hides other images and reveals selected char in the #enemy section 
