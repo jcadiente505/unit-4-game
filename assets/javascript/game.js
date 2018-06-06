@@ -10,7 +10,6 @@ var enemyHp
 var heroAtk
 var enemyAtk
 var characterPortrait = $("<img>");
-
     function startgame() {
         var heroes;
         var enemies;
@@ -55,7 +54,7 @@ var characterPortrait = $("<img>");
 
         attacker = $("#herosection").find("button");
         attacker.each(function(){
-            if ($(this).hasClass(pickedHero)){
+            if ($(this).hasClass('selected')){
                 $(this).show();
             }
         });
@@ -63,7 +62,7 @@ var characterPortrait = $("<img>");
         enemiesLeft = $("#enemyselector").find("button");
 
             enemiesleft.each(function (){
-                if ($(this).hasClass('selected')){
+                if ($(this).hasClass(pickedHero)){
                     $(this).show();
                 }
             })
