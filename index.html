@@ -15,41 +15,39 @@
 <!-- set up button images for each section -->
     <div id="heroselector">
         <h3>Choose your Hero!</h3>
-        <button><img id = "cloud" src = "./assets/images/Cloud.jpg.jpg"></button>
-        <button><img id = "squall" src = "./assets/images/Squall.jpg.png"></button>
-        <button><img id = "tidus" src = "./assets/images/Tidus.jpg.png"></button>
-        <button><img id = "noctis" src = "./assets/images/Noctis.jpg.jpg"></button>
+        <button id="cloud"><img src = "./assets/images/Cloud.jpg.jpg"></button>
+        <button id="squall"><img src = "./assets/images/Squall.jpg.png"></button>
+        <button id="tidus"><img src = "./assets/images/Tidus.jpg.png"></button>
+        <button id="noctis"><img src = "./assets/images/Noctis.jpg.jpg"></button>
     </div>
     <div id="enemyselector">
         <h3>Choose Your Enemy!</h3>
-        <button><img id = "cloud" src = "./assets/images/Cloud.jpg.jpg"></button>
-        <button><img id = "squall" src = "./assets/images/Squall.jpg.png"></button>
-        <button><img id = "tidus" src = "./assets/images/Tidus.jpg.png"></button>
-        <button><img id = "noctis" src = "./assets/images/Noctis.jpg.jpg"></button>
+        <button id="cloud"><img src = "./assets/images/Cloud.jpg.jpg"></button>
+        <button id="squall"><img src = "./assets/images/Squall.jpg.png"></button>
+        <button id="tidus"><img src = "./assets/images/Tidus.jpg.png"></button>
+        <button id="noctis"><img src = "./assets/images/Noctis.jpg.jpg"></button>
     </div>
-    <div id="movessection">
+    <div id="fightsection">
         <h3>Moves!</h3>
+        <input id="attack" type="button" value="Attack">
+        <input id="restart" type="button" value="Restart">
     </div>
     <div id="enemysection">
         <h3>Enemy!</h3>
-        <button><img id = "cloud" src = "./assets/images/Cloud.jpg.jpg"></button>
-        <button><img id = "squall" src = "./assets/images/Squall.jpg.png"></button>
-        <button><img id = "tidus" src = "./assets/images/Tidus.jpg.png"></button>
-        <button><img id = "noctis" src = "./assets/images/Noctis.jpg.jpg"></button>
-        <div id = "enemystats">Enemy States</div>
+        <button class="character" id="enemy-cloud"><img src = "./assets/images/Cloud.jpg.jpg"></button>
+        <button class="character" id="enemy-squall"><img src = "./assets/images/Squall.jpg.png"></button>
+        <button class="character" id="enemy-tidus"><img src = "./assets/images/Tidus.jpg.png"></button>
+        <button class="character" id="enemy-noctis"><img src = "./assets/images/Noctis.jpg.jpg"></button>
+        <div id="enemystats">Enemy Stats</div>
     </div>
     <div id="herosection">
         <h3>Hero!</h3>
-        <button><img id = "cloud" src = "./assets/images/Cloud.jpg.jpg"></button>
-        <button><img id = "squall" src = "./assets/images/Squall.jpg.png"></button>
-        <button><img id = "tidus" src = "./assets/images/Tidus.jpg.png"></button>
-        <button><img id = "noctis" src = "./assets/images/Noctis.jpg.jpg"></button>
-        <div id = "herostats">Hero Stats</div>
-        <br>
-        <input id = "attack" type = "button" value = "Attack">
+        <button class="character" id="hero-cloud"><img id = "cloud" src = "./assets/images/Cloud.jpg.jpg"></button>
+        <button class="character" id="hero-squall"><img src = "./assets/images/Squall.jpg.png"></button>
+        <button class="character" id="hero-tidus"><img src = "./assets/images/Tidus.jpg.png"></button>
+        <button class="character" id="hero-noctis"><img src = "./assets/images/Noctis.jpg.jpg"></button>
+        <div id="herostats">Hero Stats</div>
     </div>
-    
-    <input id = "restart" type = "button" value = "Restart">
 
     <script src="./assets/javascript/game.js"></script>
     
