@@ -100,6 +100,8 @@
         enemyPicked = $(this).attr("id");
         $("#enemy-" + enemyPicked).show();
         console.log("enemy picked", enemyPicked)
+        $("audio#victorymusic")[0].pause()
+        $("audio#battlemusic")[0].play()
     
         enemiesRemaining = $("#enemyselector").find(enemyPicked)
         $(this).hide();
@@ -146,6 +148,8 @@
         if(enemyHp <= 0){
             enemy.defeated = true;
             $("#enemysection").find(".character").hide();
+            $("audio#battlemusic")[0].pause()
+            $("audio#victorymusic")[0].play()
             alert("You Won!")
         }
     
