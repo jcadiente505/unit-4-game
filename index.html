@@ -36,47 +36,43 @@
     <div id="battlesection" class="container">
         <div class="row">
             <div id="playersection" class="col-lg-4">
-                <h1 id="playerName"></h1>
-
+                <div id="herocard" class="card character">
+                    <img id="heroimg" class="card-img-top" alt="Card image cap">
+                    <div class="card-body">
+                        <ul class="list-group">
+                            <li id="heroName" class="list-group-item herostats"></li>
+                            <li id="heroHealth" class="list-group-item herostats"></li>
+                            <li id="heroStrength" class="list-group-item herostats"></li>
+                            <li id="heroCounter" class="list-group-item  herostats"></li>
+                          </ul>
+                    </div>
+                </div>
             </div>
             <div id="movessection" class="col-lg-4">
                 <h1 id="fight-header">Fight!</h1>
                 <div id="moves" class="row">
-                    <div class="btn-group">
-                        <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            Stats
-                        </button>
-                        <div class="dropdown-menu hero">
-                            <button id="heroName" class="dropdown-item herostats"></button>
-                            <button id="heroHealth" class="dropdown-item herostats"></button>
-                            <button id="heroStrength" class="dropdown-item herostats"></button>
-                            <button id="heroCounter" class="dropdown-item herostats"></button>
-                        </div>
-                    </div>
-                    <button id="attack" type="button" class="btn btn-danger btn-lg stat">Attack</button>
-                    <div class="btn-group">
-                        <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            Stats
-                        </button>
-                        <div class="dropdown-menu enemy">
-                            <button id="enemyName" class="dropdown-item herostats"></button>
-                            <button id="enemyHealth" class="dropdown-item enemystats"></button>
-                            <button id="enemyStrength" class="dropdown-item enemystats"></button>
-                            <button id="enemyCounter" class="dropdown-item enemystats"></button>
-                        </div>
-                    </div>
+                    <button id="attack" type="button" class="btn btn-danger btn-lg btn-block">Attack</button>
                 </div>
                 <div id="message" class="row">
                     <h4 id="state"></h4>
                     <h4 id="attackmsg"></h4>
                     <h4 id="countermsg"></h4>
-                    <button id="restart" type="button" class="btn btn-danger btn-lg stat">Fight Again!</button>
+                    <button id="restart" type="button" class="btn btn-danger btn-lg btn-block">Play Again?</button>
                 </div>
 
             </div>
             <div id="enemysection" class="col-lg-4">
-                <h1 id="enemyName"></h1>
-
+                <div id="enemycard" class="card character">
+                    <img id="enemyimg" class="card-img-top" alt="Card image cap">
+                    <div class="card-body">
+                        <ul class="list-group">
+                            <li id="enemyName" class="list-group-item enemystats"></li>
+                            <li id="enemyHealth" class="list-group-item enemystats"></li>
+                            <li id="enemyStrength" class="list-group-item enemystats"></li>
+                            <li id="enemyCounter" class="list-group-item  enemystats"></li>
+                          </ul>
+                    </div>
+                </div>
             </div>
         </div>
 
@@ -91,8 +87,8 @@
                     <img class="card-img-top" src="./assets/images/squall.jpg" alt="Card image cap">
                     <div class="card-body">
                         <h5 class="card-title">Squall Leonhart</h5>
-                        <p class="card-text">A young and aloof SeeD mercenary, others view him as cold and focused.</p>
-                        <button class="btn btn-primary choice" data-value="squall">Select</button>
+                        <p class="card-text">A young and aloof SeeD mercenary, others view him as cold and focused. wields the Gunblade Griever</p>
+                        <button id="squall" class="btn btn-primary choice" data-value="squall">Select</button>
                     </div>
                 </div>
             </div>
@@ -102,7 +98,7 @@
                     <div class="card-body">
                         <h5 class="card-title">Cloud Strife</h5>
                         <p class="card-text">An ex S.O.L.D.I.E.R and gifted swordsman, he wields the mighty Buster Sword</p>
-                        <button class="btn btn-primary choice" data-value="cloud">Select</button>
+                        <button id="cloud" class="btn btn-primary choice" data-value="cloud">Select</button>
                     </div>
                 </div>
             </div>
@@ -112,7 +108,7 @@
                     <div class="card-body">
                         <h5 class="card-title">Tidus Jechtson</h5>
                         <p class="card-text">He is a rising star blitzball player from Zanarkand, one of Yuna's Guardians</p>
-                        <button class="btn btn-primary choice" data-value="tidus">Select</button>
+                        <button id="tidus" class="btn btn-primary choice" data-value="tidus">Select</button>
                     </div>
                 </div>
             </div>
@@ -122,7 +118,7 @@
                     <div class="card-body">
                         <h5 class="card-title">Lightning Farron</h5>
                         <p class="card-text">Chosen to be a savior by the god Bhunivelze, tasked to save souls before Apocolypse.</p>
-                        <button class="btn btn-primary choice" data-value="lightning">Select</button>
+                        <button id="lightning" class="btn btn-primary choice" data-value="lightning">Select</button>
                     </div>
                 </div>
             </div>
@@ -132,7 +128,7 @@
                     <div class="card-body">
                         <h5 class="card-title">Noctis Lucius Caelum</h5>
                         <p class="card-text">Crown Prince and heir to the throne of Lucis, he can wield the power of Lucian Kings</p>
-                        <button class="btn btn-primary choice" data-value="noctis">Select</button>
+                        <button id="noctis" class="btn btn-primary choice" data-value="noctis">Select</button>
                     </div>
                 </div>
             </div>
@@ -142,7 +138,7 @@
                     <div class="card-body">
                         <h5 class="card-title">Terra Branford</h5>
                         <p class="card-text">A powerful young mage, she fights with the Returners against the evil Kefka</p>
-                        <button class="btn btn-primary choice" data-value="terra">Select</button>
+                        <button id="terra" class="btn btn-primary choice" data-value="terra">Select</button>
                     </div>
                 </div>
             </div>

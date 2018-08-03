@@ -1,41 +1,45 @@
 
-$(document).ready(function () {
-    // ===================CHARACTER CONSTRUCTOR================== //
-    function Character(id, Name, Health, Strength, Counter, Defeated, image) {
-        this.id = id
+
+// ===================CHARACTER CONSTRUCTOR================== //
+function Character(id, Name, Health, Strength, Counter, Defeated, image) {
+    this.id = id,
         this.Name = Name,
-            this.Health = Health,
-            this.Strength = Strength,
-            this.Counter = Counter,
-            this.Defeated = Defeated
-        this.image = image
-    }
+        this.Health = Health,
+        this.Strength = Strength,
+        this.Counter = Counter,
+        this.Defeated = Defeated
+    this.image = image
+};
 
-    const squall = new Character("squall", "Squall Leonhart", 350, 20, 15, false, "/assets/images/squall.jpg")
-    const tidus = new Character("tidus", "Tidus Jechtson", 200, 12, 18, false, "/assets/images/Tidus.jpg.png")
-    const cloud = new Character("cloud", "Cloud Strife", 300, 24, 13, false, "/assets/images/Cloud.jpg.jpg")
-    const lightning = new Character("lightning", "Lightning Farron", 250, 18, 16, false, "/assets/images/lightning.jpg")
-    const noctis = new Character("noctis", "Noctis Lucis Caelum", 450, 13, 15, false, "/assets/images/Noctis.jpg.jpg")
-    const terra = new Character("terra", "Terra Branford", 150, 30, 18, false, "/assets/images/terra.jpg")
+const squall = new Character("squall", "Squall Leonhart", 350, 20, 15, false, "./assets/images/squall.jpg");
+const tidus = new Character("tidus", "Tidus Jechtson", 200, 12, 18, false, "./assets/images/Tidus.jpg.png");
+const cloud = new Character("cloud", "Cloud Strife", 300, 24, 13, false, "./assets/images/Cloud.jpg.jpg");
+const lightning = new Character("lightning", "Lightning Farron", 250, 18, 16, false, "./assets/images/lightning.jpg");
+const noctis = new Character("noctis", "Noctis Lucis Caelum", 450, 13, 15, false, "./assets/images/Noctis.jpg.jpg");
+const terra = new Character("terra", "Terra Branford", 150, 30, 18, false, "./assets/images/terra.jpg");
 
-    // =======================GAME VARIABLES=================== //
-
-
-    const characters = [squall, tidus, cloud, lightning, noctis, terra]
+// =======================GAME VARIABLES=================== //
 
 
+const characters = [squall, tidus, cloud, lightning, noctis, terra];
+let heroPick = false;
+let hero;
+let enemyPick = false;
+let enemy;
+let beginFight = false;
+let defeated = 0;
 
-    // =======================FUNCTIONS========================= //
 
-    // PAGE FUNCTIONS //
+
+// =======================FUNCTIONS========================= //
+
+$(document).ready(function () {
+
+    // =============================PAGE FUNCTIONS=============================== //
 
     // $("#preludetheme")[0].play()
 
-    $("#movessection").hide();
-
-    $("#restart").on("click", function () {
-        window.location.reload();
-    });
+    $("#battlesection").hide();
 
     $('a[href*="#"]')
         // Remove links that don't actually link to anything
@@ -74,75 +78,104 @@ $(document).ready(function () {
         });
 
 
-    // GAME FUNCTION //
+    // ===============================GAME FUNCTIONS======================================= //
 
+    // click listener to grab the player hero and the enemy
     $(".card button").on('click', function () {
 
-        $("#preludetheme")[0].pause()
-        $("#preludetheme")[0].currentTime = 0
-        // $("#battletheme")[0].play()
+        $("#attackmsg").empty();
+        $("#countermsg").empty();
+        $("#state").empty();
+        // ==============GRAB THE HERO================ //
 
-        const player = $(this).attr("data-value")
+        if (heroPick == false) {
+            // clear battle message div
 
-          console.log(player);
+            // grab the name of the selected hero
+            let selected = $(this).attr("data-value")
+            console.log(selected)
+            // loop through the characters array
+            for (let i = 0; i < characters.length; i++) {
+                // check if the data value matches an object
+                if (selected == characters[i].id) {
+                    hero = characters[i]
+                }
+            }
 
-        $("#movessection").fadeIn('slow');
+            console.log(hero)
+            console.log(enemy)
 
-        switch (player) {
-            case "squall":
-                startFight(squall, characters)
-                break;
-            case "cloud":
-                startFight(cloud, characters)
-                break;
-            case "tidus":
-                startFight(tidus, characters)
-                break;
-            case "lightning":
-                startFight(lightning, characters)
-                break;
-            case "noctis":
-                startFight(noctis, characters)
-                break;
-            case "terra":
-                startFight(terra, characters)
-                break;
+            const heroIndex = characters.indexOf(hero)
+
+            if (heroIndex > -1) {
+                characters.splice(heroIndex, 1)
+            }
+
+            // fade out the hero picked card
+            $("#" + hero.id).fadeOut('slow');
+            $("#playercard").fadeIn('slow')
+
+            console.log(characters)
+            selected = "";
+            heroPick = true;
+            return;
         }
 
+        // ============GRAB THE ENEMY=========== //
 
+        else if (heroPick !== false && enemyPick == false) {
+
+            let selected = $(this).attr("data-value")
+            console.log(selected)
+            // loop through the characters array
+            for (let i = 0; i < characters.length; i++) {
+                // check if the data value matches an object
+                if (selected == characters[i].id) {
+                    enemy = characters[i]
+                }
+            }
+
+            console.log(enemy);
+            console.log(hero)
+
+            const enemyIndex = characters.indexOf(enemy)
+
+            if (enemyIndex > -1) {
+                characters.splice(enemyIndex, 1)
+            }
+
+            $("#" + enemy.id).fadeOut('slow');
+            $("#enemycard").fadeIn('slow')
+
+            console.log(characters)
+            selected = "";
+            enemyPick = true;
+            // ===============BEGIN THE FIGHT============ //
+            startFight(hero, enemy);
+            return;
+        }
     });
 
 });
 
-const startFight = (hero, array) => {
+// FIGHT FUNCTIONS
 
-    const heroIndex = array.indexOf(hero)
+function startFight(hero, enemy) {
 
-    if (heroIndex > -1) {
-        array.splice(heroIndex, 1)
-    }
+    $("#battlesection").fadeIn();
+    $("#restart").hide();
+    $("#attackmsg").empty();
+    $("#countermsg").empty();
 
-    console.log(array)
 
-    $("#" + hero.id).fadeOut('slow');
-
-    const heroDiv = $("#playersection").html("<img class='selected' src=." + hero.image + ">")
-
-    const heroStats = $.each(hero, (key, value) => {
+    // add the hero image to the player card
+    $("#heroimg").attr("src", hero.image);
+    // update hero stats
+    $.each(hero, (key, value) => {
         $("#hero" + key).html(key + ":  " + value)
-    })
+    });
 
-    const enemy = array[Math.floor(Math.random() * array.length)];
-    console.log(enemy)
-    enemyIndex = array.indexOf(enemy)
-    console.log(enemyIndex)
-    if (enemyIndex > -1) {
-        array.splice(enemyIndex, 1)
-    }
-    console.log(array)
-
-    $("#" + enemy.id).fadeOut('slow');
-    const enemyDiv = $("#enemysection").html("<img class='selected' src=." + enemy.image + ">")
+    $("#enemyimg").attr("src", enemy.image)
 
     const enemyStats = $.each(enemy, (key, value) => {
         $("#enemy" + key).html(key + ":  " + value)
@@ -150,40 +183,76 @@ const startFight = (hero, array) => {
 
     $("#attack").on("click", () => {
 
-        hero.Health = hero.Health - enemy.Counter
-        enemy.Health = enemy.Health - hero.Strength
+        if (beginFight == false) {
+        
+            if (hero.Health > 0 && enemy.Health > 0) {
 
-        hero.Strength += 20
+                hero.Strength += 100;
 
-        $.each(hero, (key, value) => {
-            $("#hero" + key).html(key + ":  " + value)
-        })
+                hero.Health = hero.Health - enemy.Counter
+                enemy.Health = enemy.Health - hero.Strength
 
-        $.each(enemy, (key, value) => {
-            $("#enemy" + key).html(key + ":  " + value)
-        })
+                $.each(hero, (key, value) => {
+                    $("#hero" + key).html(key + ":  " + value)
+                });
 
-        $("#attackmsg").html("<h4>" + hero.Name + " strikes " + enemy.Name + " For " + hero.Strength + " damage!</h4>")
-        $("#countermsg").html("<h4>" + enemy.Name + " counters " + hero.Name + " For " + enemy.Counter + " damage!</h4>")
+                $.each(enemy, (key, value) => {
+                    $("#enemy" + key).html(key + ":  " + value)
+                });
 
+                $("#attackmsg").html(hero.Name + " strikes " + enemy.Name + " For " + hero.Strength + " damage!")
+                $("#countermsg").html(enemy.Name + " counters " + hero.Name + " For " + enemy.Counter + " damage!")
 
-        if (hero.Health <= 0) {
-            hero.Defeated = true;
-            heroDiv.fadeOut();
-            $("#attackmsg").empty()
-            $("#state").html("<h4>" + hero.Name + " Wins!")
-            $("#countermsg").html("<h4>Play Again?</h4>")
-            $("#restart").show()
-        }
+                if (hero.Health <= 0) {
+                    hero.Defeated = true;
+                    heroDiv.fadeOut();
+                    $("#attackmsg").empty()
+                    $("#state").html("<h4>" + enemy.Name + " Wins!")
+                    $("#countermsg").empty();
+                    $("#restart").on("click", function(){
+                        location.reload();
+                    });
+                    
+                    $("#restart").show();
+                    beginFight = false;
+                    return;
+                }
 
-        else if (enemy.Health <= 0) {
-            enemy.Defeated = true;
-            // $("#battletheme")[0].pause()
-            // $("#battletheme")[0].currentTime = 0
-            // $("#victorytheme")[0].play()
-            $("#message ").empty()
-            $("#state").html("<h4>" + hero.Name + " Wins!")
-            startFight(hero, array);
+                if (enemy.Health <= 0) {
+                    defeated += 1
+                    enemy.Defeated = true;
+                    $("#enemycard").fadeOut('slow');
+                    // $("#battletheme")[0].pause()
+                    // $("#battletheme")[0].currentTime = 0
+                    // $("#victorytheme")[0].play()
+                    $("#attackmsg").empty()
+                    $("#countermsg").empty();
+                    $("#state").html(hero.Name + " Wins!")
+
+                    if (defeated < 5) {
+                        $("#attackmsg").html("You defeated " + enemy.Name)
+                        $("#countermsg").html("Pick another opponent below!")
+
+                        beginFight = false;
+                        enemyPick = false;
+                        return
+                    }
+                    else {
+                        $("#attackmsg").empty();
+                        $("#countermsg").empty();
+
+                        $("#restart").on("click", function(){
+							location.reload();
+                        });
+                        
+                        $("#restart").show();
+                        beginFight = false;
+                        return
+                    }
+                }
+            }
         }
     })
+
 }
+
