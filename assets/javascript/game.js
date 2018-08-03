@@ -1,166 +1,189 @@
 
-    $(document).ready(function() {
-        // variables
-        var enemy;
-        var hero;
-        var enemyCount;
-        var heroHp;
-        var enemyHp;
-        var heroAtk;
-        var enemyAtk;
-        var heroCounter;
-        var enemyCounter;
-        var pickedHero;
-        var enemyPicked;
-        var enemiesRemaining;
-        var allHeroes;
-        var enemiesLeft;
-        var heroeselector;
-        var enemies;
-        var squall = {
-            health: 140,
-            attack: 10,
-            counter: 8,
-            defeated: false
-        };
-        var cloud = {
-            health: 180,
-            attack: 8,
-            counter: 10,
-            defeated: false
-        };
-        var tidus = {
-            health: 130,
-            attack: 6,
-            counter: 15,
-            defeated: false
-        };
-        var noctis = {
-            health: 200,
-            attack: 5,
-            counter: 13,
-            defeated: false
-        };
-    
-        
-        // Hides all images in each section until selected
-        heroeselector = $("#herosection").find("button");
-        heroeselector.each(function (index){
-            $(this).hide();
-        });
-
-        enemies = $("#enemyselector").find("button");
-        enemies.each(function(index) {
-            $(this).hide();
-        });
-
-        enemyCount = $("#enemysection").find("button");
-        enemyCount.each(function (index){
-            $(this).hide();
-        });
-
-        $("#movessection").hide();
-
-    
-
-// select the character from #heroselector, hides other images, reveals selected char in #herosection
-    $("#heroselector button").on("click", function(){
-
-
-        pickedHero = $(this).attr("id");
-        $("#hero-" + pickedHero).show();
-        console.log(pickedHero);
-
-        allHeroes = $("#heroselector").find("button");
-        allHeroes.each(function (){
-            $(this).hide();
-        });
-
-        enemiesLeft = $("#enemyselector").find("button");
-        enemiesLeft.each(function (){
-            $(this).show();
-            });
-
-        hero = charConstructor(pickedHero);
-		heroHp = hero.health;
-		heroAtk = hero.attack;
-        heroCounter = hero.counter;
-
-        $("#herosection").find("#herostats").append("<li>" + "Hero Health: " + "<span id = 'heroHealthStat'>" + heroHp + "</span>" + "</li>");
-        $("#herosection").find("#herostats").append("<li >" + "Hero Attack: " + "<span id = 'heroAttackStat'>" + heroAtk + "</span>" + "</li>");
-        $("#herosection").find("#herostats").append("<li>" + "Hero Counter Attack: " + "<span id = 'heroCounterStat'>" + heroCounter + "</span>" + "</li>");
-        
-        
-    });
-
-    // select enemy from #enemyselector, hides other images and reveals selected char in the #enemy section 
-
-    $("#enemyselector button").on("click", function(){
-       
-        enemyPicked = $(this).attr("id");
-        $("#enemy-" + enemyPicked).show();
-        console.log("enemy picked", enemyPicked)
-        $("audio#victorymusic")[0].pause()
-        $("audio#battlemusic")[0].play()
-    
-        enemiesRemaining = $("#enemyselector").find(enemyPicked)
-        $(this).hide();
-
-        enemy = charConstructor(enemyPicked);
-        console.log("second enemy picked", enemy);
-		enemyHp = enemy.health;
-		enemyAtk = enemy.attack;
-        enemyCounter = enemy.counter;
-
-        $("#enemysection").find("#enemystats").append("<li>" + "Enemy Health: " + "<span id = 'enemyHealthStat'>" + enemyHp + "</span>" + "</li>");
-        $("#enemysection").find("#enemystats").append("<li >" + "Enemy Attack: " + "<span id = 'enemyAttackStat'>" + enemyAtk + "</span>" + "</li>");
-        $("#enemysection").find("#enemystats").append("<li>" + "Enemy Counter Attack: " + "<span id = 'enemyCounterStat'>" + enemyCounter + "</span>" + "</li>");
-    });
-
-    var charConstructor = function(character){
-
-        if(character === "cloud"){
-            return cloud;
-        }
-        else if(character === "squall"){
-            return squall;
-        }
-        else if(character === "tidus"){
-            return tidus;
-        }
-        else if(character === "noctis"){
-            return noctis; 
-        }   
+$(document).ready(function () {
+    // ===================CHARACTER CONSTRUCTOR================== //
+    function Character(id, Name, Health, Strength, Counter, Defeated, image) {
+        this.id = id
+        this.Name = Name,
+            this.Health = Health,
+            this.Strength = Strength,
+            this.Counter = Counter,
+            this.Defeated = Defeated
+        this.image = image
     }
 
-    $("#attack").on("click", function(){
+    const squall = new Character("squall", "Squall Leonhart", 350, 20, 15, false, "/assets/images/squall.jpg")
+    const tidus = new Character("tidus", "Tidus Jechtson", 200, 12, 18, false, "/assets/images/Tidus.jpg.png")
+    const cloud = new Character("cloud", "Cloud Strife", 300, 24, 13, false, "/assets/images/Cloud.jpg.jpg")
+    const lightning = new Character("lightning", "Lightning Farron", 250, 18, 16, false, "/assets/images/lightning.jpg")
+    const noctis = new Character("noctis", "Noctis Lucis Caelum", 450, 13, 15, false, "/assets/images/Noctis.jpg.jpg")
+    const terra = new Character("terra", "Terra Branford", 150, 30, 18, false, "/assets/images/terra.jpg")
 
-        heroHp = heroHp - enemyCounter;
-        console.log(enemyCounter)
-        console.log(heroHp)
-        enemyHp = enemyHp - heroAtk;
-    
-        heroAtk = heroAtk+6;
-    
-        $("#herosection").find("#herostats").html(`<ul><li> Hero Health: ${heroHp}</li> <li> Hero Attack: ${heroAtk}</li> <li> Hero Counter: ${heroCounter}</li></ul>`);
-        $("#enemysection").find("#enemystats").html(`<ul><li> Enemy Health: ${enemyHp}</li> <li> Enemy Attack: ${enemyAtk}</li> <li> Enemy Counter: ${enemyCounter}</li></ul>`);
-        
-        if(enemyHp <= 0){
-            enemy.defeated = true;
-            $("#enemysection").find(".character").hide();
-            $("audio#battlemusic")[0].pause()
-            $("audio#victorymusic")[0].play()
-            alert("You Won!")
-        }
-    
-        else if(heroHp <= 0){
-            hero.defeated = true;
-            $("#herosection").find(".character").hide();
-            alert("You Lose")
-        }
+    // =======================GAME VARIABLES=================== //
+
+
+    const characters = [squall, tidus, cloud, lightning, noctis, terra]
+
+
+
+    // =======================FUNCTIONS========================= //
+
+    // PAGE FUNCTIONS //
+
+    // $("#preludetheme")[0].play()
+
+    $("#movessection").hide();
+
+    $("#restart").on("click", function () {
+        window.location.reload();
     });
 
-    $("#restart").on("click", function(){
-        location.reload()
-    })
+    $('a[href*="#"]')
+        // Remove links that don't actually link to anything
+        .not('[href="#"]')
+        .not('[href="#0"]')
+        .click(function (event) {
+            // On-page links
+            if (
+                location.pathname.replace(/^\//, '') == this.pathname.replace(/^\//, '')
+                &&
+                location.hostname == this.hostname
+            ) {
+                // Figure out element to scroll to
+                var target = $(this.hash);
+                target = target.length ? target : $('[name=' + this.hash.slice(1) + ']');
+                // Does a scroll target exist?
+                if (target.length) {
+                    // Only prevent default if animation is actually gonna happen
+                    event.preventDefault();
+                    $('html, body').animate({
+                        scrollTop: target.offset().top
+                    }, 1000, function () {
+                        // Callback after animation
+                        // Must change focus!
+                        var $target = $(target);
+                        $target.focus();
+                        if ($target.is(":focus")) { // Checking if the target was focused
+                            return false;
+                        } else {
+                            $target.attr('tabindex', '-1'); // Adding tabindex for elements not focusable
+                            $target.focus(); // Set focus again
+                        };
+                    });
+                }
+            }
+        });
+
+
+    // GAME FUNCTION //
+
+    $(".card button").on('click', function () {
+
+        $("#preludetheme")[0].pause()
+        $("#preludetheme")[0].currentTime = 0
+        // $("#battletheme")[0].play()
+
+        const player = $(this).attr("data-value")
+
+          console.log(player);
+
+        $("#movessection").fadeIn('slow');
+
+        switch (player) {
+            case "squall":
+                startFight(squall, characters)
+                break;
+            case "cloud":
+                startFight(cloud, characters)
+                break;
+            case "tidus":
+                startFight(tidus, characters)
+                break;
+            case "lightning":
+                startFight(lightning, characters)
+                break;
+            case "noctis":
+                startFight(noctis, characters)
+                break;
+            case "terra":
+                startFight(terra, characters)
+                break;
+        }
+
+
+    });
+
 });
+
+const startFight = (hero, array) => {
+
+    const heroIndex = array.indexOf(hero)
+
+    if (heroIndex > -1) {
+        array.splice(heroIndex, 1)
+    }
+
+    console.log(array)
+
+    $("#" + hero.id).fadeOut('slow');
+
+    const heroDiv = $("#playersection").html("<img class='selected' src=." + hero.image + ">")
+
+    const heroStats = $.each(hero, (key, value) => {
+        $("#hero" + key).html(key + ":  " + value)
+    })
+
+    const enemy = array[Math.floor(Math.random() * array.length)];
+    console.log(enemy)
+    enemyIndex = array.indexOf(enemy)
+    console.log(enemyIndex)
+    if (enemyIndex > -1) {
+        array.splice(enemyIndex, 1)
+    }
+    console.log(array)
+
+    $("#" + enemy.id).fadeOut('slow');
+    const enemyDiv = $("#enemysection").html("<img class='selected' src=." + enemy.image + ">")
+
+    const enemyStats = $.each(enemy, (key, value) => {
+        $("#enemy" + key).html(key + ":  " + value)
+    })
+
+    $("#attack").on("click", () => {
+
+        hero.Health = hero.Health - enemy.Counter
+        enemy.Health = enemy.Health - hero.Strength
+
+        hero.Strength += 20
+
+        $.each(hero, (key, value) => {
+            $("#hero" + key).html(key + ":  " + value)
+        })
+
+        $.each(enemy, (key, value) => {
+            $("#enemy" + key).html(key + ":  " + value)
+        })
+
+        $("#attackmsg").html("<h4>" + hero.Name + " strikes " + enemy.Name + " For " + hero.Strength + " damage!</h4>")
+        $("#countermsg").html("<h4>" + enemy.Name + " counters " + hero.Name + " For " + enemy.Counter + " damage!</h4>")
+
+
+        if (hero.Health <= 0) {
+            hero.Defeated = true;
+            heroDiv.fadeOut();
+            $("#attackmsg").empty()
+            $("#state").html("<h4>" + hero.Name + " Wins!")
+            $("#countermsg").html("<h4>Play Again?</h4>")
+            $("#restart").show()
+        }
+
+        else if (enemy.Health <= 0) {
+            enemy.Defeated = true;
+            // $("#battletheme")[0].pause()
+            // $("#battletheme")[0].currentTime = 0
+            // $("#victorytheme")[0].play()
+            $("#message ").empty()
+            $("#state").html("<h4>" + hero.Name + " Wins!")
+            startFight(hero, array);
+        }
+    })
+}
